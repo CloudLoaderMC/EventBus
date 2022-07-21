@@ -1,10 +1,12 @@
+import ml.darubyminer360.gradleutils.GradleUtils
+
 buildscript {
     dependencies {
         classpath('de.jjohannes.gradle:extra-java-module-info:0.14')
     }
 }
 plugins {
-    id 'net.minecraftforge.gradleutils' version '2.+'
+    id 'ml.darubyminer360.gradleutils' version '2.2.0'
     id 'com.github.ben-manes.versions' version '0.42.0'
 }
 apply plugin: 'maven-publish'
@@ -14,7 +16,7 @@ allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'de.jjohannes.extra-java-module-info'
     
-    group 'net.minecraftforge'
+    group 'ml.cloudmc'
     java {
         toolchain.languageVersion = JavaLanguageVersion.of(16)
         modularity.inferModulePath.set(true)
@@ -23,6 +25,10 @@ allprojects {
     
     repositories {
         mavenLocal()
+        maven {
+            name = 'Cloud'
+            url = 'https://maven.cloudmc.ml/releases'
+        }
         maven {
             name = 'forge'
             url = 'https://maven.minecraftforge.net/'
@@ -99,7 +105,7 @@ dependencies {
     implementation('org.ow2.asm:asm-commons:9.2')
     implementation('org.ow2.asm:asm-tree:9.2')
     implementation('org.apache.logging.log4j:log4j-api:2.17.1')
-    implementation('cpw.mods:modlauncher:10.0.+')
+    implementation('ml.cloudmc:ModLauncher:10.0.11')
     compileOnly('org.jetbrains:annotations:23.0.0')
     api('net.jodah:typetools:0.8.+')
 }
@@ -111,15 +117,15 @@ publishing {
             pom {
                 name = 'Event Bus'
                 description = 'High performance Event Bus library'
-                url = 'https://github.com/MinecraftForge/eventbus'
+                url = 'https://github.com/CloudLoaderMC/EventBus'
                 scm {
-                    url = 'https://github.com/MinecraftForge/eventbus'
-                    connection = 'scm:git:git://github.com/MinecraftForge/eventbus.git'
-                    developerConnection = 'scm:git:git@github.com:MinecraftForge/eventbus.git'
+                    url = 'https://github.com/CloudLoaderMC/EventBus'
+                    connection = 'scm:git:git://github.com/CloudLoaderMC/EventBus.git'
+                    developerConnection = 'scm:git:git@github.com:CloudLoaderMC/EventBus.git'
                 }
                 issueManagement {
                     system = 'github'
-                    url = 'https://github.com/MinecraftForge/eventbus/issues'
+                    url = 'https://github.com/CloudLoaderMC/EventBus/issues'
                 }
 
                 licenses {
@@ -131,18 +137,14 @@ publishing {
 
                 developers {
                     developer {
-                        id = 'cpw'
-                        name = 'cpw'
-                    }
-                    developer {
-                        id = 'LexManos'
-                        name = 'LexManos'
+                        id = 'DaRubyMiner360'
+                        name = 'DaRubyMiner360'
                     }
                 }
             }
         }
     }
     repositories {
-        maven gradleutils.getPublishingForgeMaven()
+        maven GradleUtils.getPublishingCloudMaven(project)
     }
 }
